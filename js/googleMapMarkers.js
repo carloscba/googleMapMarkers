@@ -1,18 +1,18 @@
-var googleMap = (function () {
-    function googleMap(key, map) {
+var googleMapMarkers = (function () {
+    function googleMapMarkers(key, map) {
         this.bound = false;
         this.key = key;
         this.map = map;
-        this.activeMarkers = [];
+        this.loadedPoints = [];
     }
-    googleMap.prototype.setCenter = function (lat, lng) {
+    googleMapMarkers.prototype.setCenter = function (lat, lng) {
         var point = new google.maps.LatLng(lat, lng);
         this.map.setCenter(point);
     };
-    googleMap.prototype.zoom = function (zoom) {
+    googleMapMarkers.prototype.zoom = function (zoom) {
         this.map.setZoom(zoom);
     };
-    googleMap.prototype.addMarker = function (lat, lng, data, callback) {
+    googleMapMarkers.prototype.addMarker = function (lat, lng, data, callback) {
         var point = new google.maps.LatLng(lat, lng);
         var marker = new google.maps.Marker({
             position: point,
@@ -20,14 +20,14 @@ var googleMap = (function () {
             map: this.map,
             data: data
         });
-        this.activeMarkers.push(point);
+        this.loadedPoints.push(point);
         google.maps.event.addListener(marker, 'click', function (e) {
             if (data) {
                 callback(marker);
             }
         });
     };
-    googleMap.prototype.addMarkers = function (markers) {
+    googleMapMarkers.prototype.addMarkers = function (markers) {
         var _this = this;
         markers.data.forEach(function (marker, index) {
             _this.addMarker(marker.lat, marker.lng, marker, markers.callback);
@@ -36,13 +36,13 @@ var googleMap = (function () {
             this.setBound();
         }
     };
-    googleMap.prototype.setBound = function () {
+    googleMapMarkers.prototype.setBound = function () {
         var bounds = new google.maps.LatLngBounds();
-        this.activeMarkers.forEach(function (point, index) {
+        this.loadedPoints.forEach(function (point, index) {
             bounds.extend(point);
         });
         this.map.fitBounds(bounds);
     };
-    return googleMap;
+    return googleMapMarkers;
 }());
-//# sourceMappingURL=googleMap.js.map
+//# sourceMappingURL=googleMapMarkers.js.map
