@@ -4,6 +4,7 @@ var googleMapMarkers = (function () {
         this.key = key;
         this.map = map;
         this.loadedPoints = [];
+        this.loadedMarkers = [];
     }
     googleMapMarkers.prototype.setCenter = function (lat, lng) {
         var point = new google.maps.LatLng(lat, lng);
@@ -21,6 +22,7 @@ var googleMapMarkers = (function () {
             data: data
         });
         this.loadedPoints.push(point);
+        this.loadedMarkers.push(marker);
         google.maps.event.addListener(marker, 'click', function (e) {
             if (data) {
                 callback(marker);
@@ -42,6 +44,12 @@ var googleMapMarkers = (function () {
             bounds.extend(point);
         });
         this.map.fitBounds(bounds);
+    };
+    googleMapMarkers.prototype.clearMarkers = function () {
+        this.loadedMarkers.forEach(function (marker, index) {
+            console.log(marker);
+            marker.setMap(null);
+        });
     };
     return googleMapMarkers;
 }());

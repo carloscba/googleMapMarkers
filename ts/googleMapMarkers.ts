@@ -3,12 +3,14 @@ class googleMapMarkers {
     public key:string;
     private map:any;
     private loadedPoints:any[];
+    private loadedMarkers:any[];
     public bound:boolean = false;
 
     constructor(key: string, map:any) {
         this.key = key;
         this.map = map;
-        this.loadedPoints = [];
+        this.loadedPoints  = [];
+        this.loadedMarkers = [];
     }
 
     public setCenter(lat:number, lng:number):void{
@@ -32,6 +34,7 @@ class googleMapMarkers {
         });      
 
         this.loadedPoints.push(point);
+        this.loadedMarkers.push(marker);
 
         google.maps.event.addListener(marker, 'click', function(e) {         
             if(data){
@@ -59,6 +62,12 @@ class googleMapMarkers {
         });    
 
         this.map.fitBounds(bounds);        
-    }    
+    }   
+
+    public clearMarkers():void{
+        this.loadedMarkers.forEach((marker, index) => {
+            marker.setMap(null);
+        });        
+    } 
 
 }

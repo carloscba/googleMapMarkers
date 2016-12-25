@@ -43,7 +43,16 @@
 
                 map.addMarkers(markers);
 
-            });        
+                var btn = document.getElementById("btnClearMarkers");
+                btn.addEventListener("click", function(){
+                    map.clearMarkers();
+                });
+                
+
+            });  
+                  
+                  
         </script>
+        <a href="#" id="btnClearMarkers">clearMarkers()</a>
     </body>
 </html>
