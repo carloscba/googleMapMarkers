@@ -38,12 +38,22 @@
                     }],
                     callback : function(m){
                         map.setCenter(m.data.lat, m.data.lng);
+                        map.near(m.data.lat, m.data.lng, 5);
                     }
                 }
 
                 map.addMarkers(markers);
 
-            });        
+                var btn = document.getElementById("btnClearMarkers");
+                btn.addEventListener("click", function(){
+                    map.clearMarkers();
+                });
+                
+
+            });  
+                  
+                  
         </script>
+        <a href="#" id="btnClearMarkers">clearMarkers()</a>
     </body>
 </html>

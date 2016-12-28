@@ -1,14 +1,18 @@
 class googleMapMarkers {
     
-    public key:string;
+    public  key:string;
     private map:any;
     private loadedPoints:any[];
-    public bound:boolean = false;
+    private loadedMarkers:any[];
+    public  bound:boolean = false;
+    public  markersData:any[];
 
     constructor(key: string, map:any) {
         this.key = key;
         this.map = map;
-        this.loadedPoints = [];
+        this.loadedPoints  = [];
+        this.loadedMarkers = [];
+        this.markersData       = [];
     }
 
     public setCenter(lat:number, lng:number):void{
@@ -32,6 +36,7 @@ class googleMapMarkers {
         });      
 
         this.loadedPoints.push(point);
+        this.loadedMarkers.push(marker);
 
         google.maps.event.addListener(marker, 'click', function(e) {         
             if(data){
@@ -41,6 +46,8 @@ class googleMapMarkers {
     }
 
     public addMarkers(markers){
+
+        this.markersData = markers
 
         markers.data.forEach((marker, index) => {
             this.addMarker(marker.lat, marker.lng, marker, markers.callback);
@@ -59,6 +66,46 @@ class googleMapMarkers {
         });    
 
         this.map.fitBounds(bounds);        
-    }    
+    }   
+
+    public clearMarkers():void{
+        this.loadedMarkers.forEach((marker, index) => {
+            marker.setMap(null);
+        });        
+    } 
+
+    public near(lat, lng, radius){
+        this.clearMarkers();
+
+        var lat = lat;
+        var lng = lng;
+        var R   = 6371; // radius of earth in km
+        var distances = [];
+        var closest = -1;
+
+        this.markersData.forEach((marker, index) => {
+
+            var mlat = marker.lat;
+            var mlng = marker.lng;
+
+            if(mlat != '' && mlng != ''){
+                var dLat  = this.rad(mlat - lat);
+                var dLong = this.rad(mlng - lng);
+                var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(this.rad(lat)) * Math.cos(this.rad(lat)) * Math.sin(dLong/2) * Math.sin(dLong/2);
+                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+                var d = R * c;
+                distances[index] = d;
+
+
+                if (Math.round(d) < (radius * 1.60934)) {
+                    this.addMarker(marker.lat, marker.lng, marker)
+                }
+            }
+        });
+    }
+
+    private rad(x){
+        return x*Math.PI/180;
+    }
 
 }
