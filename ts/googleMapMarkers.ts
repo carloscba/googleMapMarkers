@@ -12,7 +12,7 @@ class googleMapMarkers {
         this.map = map;
         this.loadedPoints  = [];
         this.loadedMarkers = [];
-        this.markersData       = [];
+        this.markersData   = [];
     }
 
     public setCenter(lat:number, lng:number):void{
@@ -39,7 +39,7 @@ class googleMapMarkers {
         this.loadedMarkers.push(marker);
 
         google.maps.event.addListener(marker, 'click', function(e) {         
-            if(data){
+            if(callback){
                 callback(marker);
             }
         });
@@ -47,7 +47,7 @@ class googleMapMarkers {
 
     public addMarkers(markers){
 
-        this.markersData = markers
+        this.markersData = markers;
 
         markers.data.forEach((marker, index) => {
             this.addMarker(marker.lat, marker.lng, marker, markers.callback);
@@ -83,7 +83,8 @@ class googleMapMarkers {
         var distances = [];
         var closest = -1;
 
-        this.markersData.forEach((marker, index) => {
+        var thisCallback = this.markersData.callback;
+        this.markersData.data.forEach((marker, index) => {
 
             var mlat = marker.lat;
             var mlng = marker.lng;
@@ -96,9 +97,8 @@ class googleMapMarkers {
                 var d = R * c;
                 distances[index] = d;
 
-
                 if (Math.round(d) < (radius * 1.60934)) {
-                    this.addMarker(marker.lat, marker.lng, marker)
+                    this.addMarker(marker.lat, marker.lng, marker, thisCallback);
                 }
             }
         });

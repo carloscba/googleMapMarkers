@@ -25,7 +25,7 @@ var googleMapMarkers = (function () {
         this.loadedPoints.push(point);
         this.loadedMarkers.push(marker);
         google.maps.event.addListener(marker, 'click', function (e) {
-            if (data) {
+            if (callback) {
                 callback(marker);
             }
         });
@@ -60,7 +60,8 @@ var googleMapMarkers = (function () {
         var R = 6371; // radius of earth in km
         var distances = [];
         var closest = -1;
-        this.markersData.forEach(function (marker, index) {
+        var thisCallback = this.markersData.callback;
+        this.markersData.data.forEach(function (marker, index) {
             var mlat = marker.lat;
             var mlng = marker.lng;
             if (mlat != '' && mlng != '') {
@@ -71,7 +72,7 @@ var googleMapMarkers = (function () {
                 var d = R * c;
                 distances[index] = d;
                 if (Math.round(d) < (radius * 1.60934)) {
-                    _this.addMarker(marker.lat, marker.lng, marker);
+                    _this.addMarker(marker.lat, marker.lng, marker, thisCallback);
                 }
             }
         });
