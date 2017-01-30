@@ -28,11 +28,19 @@ class googleMapMarkers {
         
         let point = new google.maps.LatLng(lat, lng);
 
+       var image = {
+          url: data.image,
+          size: new google.maps.Size(20, 32),
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(0, 32)
+        };
+
         let marker = new google.maps.Marker({
             position : point,
             title    : (data) ? data.title : "",
             map      : this.map,
-            data     : data
+            data     : data,
+            icon     : image
         });      
 
         this.loadedPoints.push(point);
