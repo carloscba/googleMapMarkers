@@ -22,7 +22,11 @@ class googleMapMarkers {
 
     public zoom(zoom):void{
         this.map.setZoom(zoom);        
-    }    
+    } 
+
+    public mapType(type):void{
+        this.map.setMapTypeId(type);
+    }   
 
     public addMarker(lat:number, lng:number, data?, callback?):void{
         

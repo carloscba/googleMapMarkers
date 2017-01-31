@@ -14,6 +14,9 @@ var googleMapMarkers = (function () {
     googleMapMarkers.prototype.zoom = function (zoom) {
         this.map.setZoom(zoom);
     };
+    googleMapMarkers.prototype.mapType = function (type) {
+        this.map.setMapTypeId(type);
+    };
     googleMapMarkers.prototype.addMarker = function (lat, lng, data, callback) {
         var point = new google.maps.LatLng(lat, lng);
         var image = {
