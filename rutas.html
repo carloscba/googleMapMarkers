@@ -31,13 +31,14 @@
                     }
                 }
 
-                map.addMarkers(markers);
+                //map.addMarkers(markers);
 
-
+                /*
                 var btn = document.getElementById("btnClearMarkers");
                 btn.addEventListener("click", function(){
                     map.clearMarkers();
                 });
+                */
 
                 var getPosition = function(iata){
                     console.log(iata)
@@ -48,7 +49,7 @@
                     }
                 }
 
-                var drawLine = function(dest){
+                var drawLine = function(dest, color){
 
                     points = [];
                     for(n in dest){
@@ -56,10 +57,9 @@
                         points.push(new google.maps.LatLng(data.lat, data.lng))
                     }
 
-                    console.log(points)
                     var line = new google.maps.Polyline({
                         path: points,
-                        strokeColor: "#FF0000",
+                        strokeColor: color,
                         strokeOpacity: 1.0,
                         strokeWeight: 5,
                         geodesic: false,
@@ -70,13 +70,91 @@
 
                 }
 
-                drawLine(["AEP","ROS","RES","PSS","IGR"])
+                rutas = {
+                    "Andes" : [
+                        ["AEP","ROS","RES","PSS","IGR"],
+                        ["AEP","SDE","TUC","SLA","JUJ"],
+                        ["AEP","MDZ","NQN","BRC"],
+                        ["AEP","PMY","CRD","FTE","USH"]
+                    ],
+                    "Alas del Sur" : [
+                        ["COR","AEP","ROS"],
+                        ["COR","AEP","REL","PMY","BRC","NQN","FTE","USH"],
+                        ["COR","VGL","BHI","REL","CRD","RGA","USH"],
+                        ["COR","AEP","NQN","CPC","EQS"],
+                        ["COR","AEP","RCU","LUQ","MDZ","TUC","SLA","JUJ"],
+                        ["COR","MDZ","NQN","REL","CRD","RGL","RGA"],
+                        ["COR","AEP","AFA","UAQ","IRJ","CTC","SDE"],
+                        ["COR","AEP","BHI","RSA","VDM"],
+                        ["COR","AEP","SFN","PSS","IGR"],
+                        ["SLA","IGR","FTE","BRC","COR"],
+                        ["COR","AEP","CNQ","RES","FMA"],
+                        ["SLA","JUJ","CTC","UAQ","MDZ","COR","NQN","RGL"],
+                    ]
+                }
+
+                for(n in rutas["Andes"]){
+                    drawLine(rutas["Andes"][n],"#000000")
+                }
+
+                for(n in rutas["Alas del Sur"]){
+                    drawLine(rutas["Alas del Sur"][n],"#CCCCCC")
+                }                
                 
+
+
+/*
+—CÓRDOBA (Provincia de CÓRDOBA – REPÚBLICA ARGENTINA) – SALTA (Provincia de SALTA – REPÚBLICA ARGENTINA) – SANTA CRUZ DE LA SIERRA (ESTADO PLURINACIONAL DE BOLIVIA) y viceversa.
+
+—CÓRDOBA (Provincia de CÓRDOBA – REPÚBLICA ARGENTINA) – BUENOS AIRES (REPÚBLICA ARGENTINA) – ROSARIO (Provincia de SANTA FE – REPÚBLICA ARGENTINA) – PORTO ALEGRE (REPÚBLICA FEDERATIVA DEL BRASIL) – SAN PABLO (REPÚBLICA FEDERATIVA DEL BRASIL) – RÍO DE JANEIRO (REPÚBLICA FEDERATIVA DEL BRASIL) y viceversa
+
+—CÓRDOBA (Provincia de CÓRDOBA – REPÚBLICA ARGENTINA) – BUENOS AIRES (REPÚBLICA ARGENTINA) – ROSARIO (Provincia de SANTA FE – REPÚBLICA ARGENTINA) – LIMA (REPÚBLICA DEL PERÚ) – MIAMI (ESTADOS UNIDOS DE AMÉRICA) y viceversa.
+
+—CÓRDOBA (Provincia de CÓRDOBA – REPÚBLICA ARGENTINA) – BUENOS AIRES (REPÚBLICA ARGENTINA) – ROSARIO (Provincia de SANTA FE – REPÚBLICA ARGENTINA) – ASUNCIÓN DEL PARAGUAY (REPÚBLICA DEL PARAGUAY) – MIAMI (ESTADOS UNIDOS DE AMÉRICA) y viceversa.
+
+—CÓRDOBA (Provincia de CÓRDOBA – REPÚBLICA ARGENTINA) – BUENOS AIRES (REPÚBLICA ARGENTINA) – ROSARIO (Provincia de SANTA FE – REPÚBLICA ARGENTINA) – SANTA CRUZ DE LA SIERRA (ESTADO PLURINACIONAL DE BOLIVIA) y viceversa.
+
+—CÓRDOBA (Provincia de CÓRDOBA – REPÚBLICA ARGENTINA) – BUENOS AIRES (REPÚBLICA ARGENTINA) – ROSARIO (Provincia de SANTA FE – REPÚBLICA ARGENTINA) – SANTIAGO DE CHILE (REPÚBLICA DE CHILE) – MIAMI (ESTADOS UNIDOS DE AMÉRICA) y viceversa.
+
+—CÓRDOBA (Provincia de CÓRDOBA – REPÚBLICA ARGENTINA) – BUENOS AIRES (REPÚBLICA ARGENTINA) – ROSARIO (Provincia de SANTA FE – REPÚBLICA ARGENTINA) – MONTEVIDEO (REPÚBLICA ORIENTAL DEL URUGUAY) – PUNTA DEL ESTE (REPÚBLICA ORIENTAL DEL URUGUAY) y viceversa.
+
+—CÓRDOBA (Provincia de CÓRDOBA – REPÚBLICA ARGENTINA) – BUENOS AIRES (REPÚBLICA ARGENTINA) – LOS ÁNGELES (ESTADOS UNIDOS DE AMÉRICA) – SHANGHÁI (REPÚBLICA POPULAR CHINA) y viceversa.
+
+—CÓRDOBA (Provincia de CÓRDOBA – REPÚBLICA ARGENTINA) – BUENOS AIRES (REPÚBLICA ARGENTINA) – ROMA (REPÚBLICA ITALIANA) y viceversa.
+*/
+
+/*
+American Jet
+Rutas aprobadas:
+
+—NEUQUÉN (Provincia del NEUQUÉN) – COMODORO RIVADAVIA (Provincia del CHUBUT) – RÍO GALLEGOS (Provincia de SANTA CRUZ) – EL CALAFATE (Provincia de SANTA CRUZ) – RÍO GRANDE (Provincia de TIERRA DEL FUEGO, ANTÁRTIDA E ISLAS DEL ATLÁNTICO SUR) – USHUAIA (Provincia de TIERRA DEL FUEGO, ANTÁRTIDA E ISLAS DEL ATLÁNTICO SUR) y viceversa.
+
+—NEUQUÉN (Provincia del NEUQUÉN) – COMODORO RIVADAVIA (Provincia del CHUBUT) – ISLAS MALVINAS (Provincia de TIERRA DEL FUEGO, ANTÁRTIDA E ISLAS DEL ATLÁNTICO SUR) y viceversa.
+
+—NEUQUÉN (Provincia del NEUQUÉN – REPÚBLICA ARGENTINA) – TEMUCO (REPÚBLICA DE CHILE) – SANTIAGO DE CHILE (REPÚBLICA DE CHILE) y viceversa.
+
+—NEUQUÉN (Provincia del NEUQUÉN – REPÚBLICA ARGENTINA) – COMODORO RIVADAVIA (Provincia del CHUBUT – REPÚBLICA ARGENTINA) – RÍO GALLEGOS (Provincia de SANTA CRUZ – REPÚBLICA ARGENTINA) – PUNTA ARENAS (REPÚBLICA DE CHILE) y viceversa.
+
+—NEUQUÉN (Provincia del NEUQUÉN – REPÚBLICA ARGENTINA) – MALARGÜE (Provincia de MENDOZA – REPÚBLICA ARGENTINA) – MENDOZA (Provincia de MENDOZA – REPÚBLICA ARGENTINA) – SAN MIGUEL DE TUCUMÁN (Provincia de TUCUMÁN – REPÚBLICA ARGENTINA) – SALTA (Provincia de SALTA – REPÚBLICA ARGENTINA) – TARIJA (ESTADO PLURINACIONAL DE BOLIVIA) y viceversa.
+
+—NEUQUÉN (Provincia del NEUQUÉN – REPÚBLICA ARGENTINA) – CÓRDOBA (Provincia de CÓRDOBA – REPÚBLICA ARGENTINA) – SAN MIGUEL DE TUCUMÁN (Provincia de TUCUMÁN – REPÚBLICA ARGENTINA) – SANTA CRUZ DE LA SIERRA (ESTADO PLURINACIONAL DE BOLIVIA) y viceversa.
+
+—NEUQUÉN (Provincia del NEUQUÉN – REPÚBLICA ARGENTINA) – CÓRDOBA (Provincia de CÓRDOBA – REPÚBLICA ARGENTINA) – RESISTENCIA (Provincia del CHACO – REPÚBLICA ARGENTINA) – ASUNCIÓN DEL PARAGUAY (REPÚBLICA DEL PARAGUAY) y viceversa.
+
+—NEUQUÉN (Provincia del NEUQUÉN) – ROSARIO (Provincia de SANTA FE) – PUERTO IGUAZÚ (Provincia de MISIONES) y viceversa.
+
+—NEUQUÉN (Provincia del NEUQUÉN – REPÚBLICA ARGENTINA) – ROSARIO (Provincia de SANTA FE – REPÚBLICA ARGENTINA) – BUENOS AIRES (AEROPARQUE JORGE NEWBERY – REPÚBLICA ARGENTINA) – PUNTA DEL ESTE (REPÚBLICA ORIENTAL DEL URUGUAY) y viceversa.
+
+—NEUQUÉN (Provincia del NEUQUÉN) – BAHÍA BLANCA (Provincia de BUENOS AIRES) – MAR DEL PLATA (Provincia de BUENOS AIRES) – BUENOS AIRES y viceversa.
+
+—NEUQUÉN (Provincia del NEUQUÉN – REPÚBLICA ARGENTINA) – CÓRDOBA (Provincia de CÓRDOBA – REPÚBLICA ARGENTINA) – ROSARIO (Provincia de SANTA FE – REPÚBLICA ARGENTINA) – PORTO ALEGRE (REPÚBLICA FEDERATIVA DEL BRASIL) y viceversa.
+
+—NEUQUÉN (Provincia del NEUQUÉN) – SANTA ROSA (Provincia de LA PAMPA) – BUENOS AIRES y viceversa; y NEUQUÉN (Provincia del NEUQUÉN) – SAN CARLOS DE BARILOCHE (Provincia de RÍO NEGRO) – EL CALAFATE (Provincia de SANTA CRUZ) – USHUAIA (Provincia de TIERRA DEL FUEGO, ANTÁRTIDA E ISLAS DEL ATLÁNTICO SUR) y viceversa.
+*/
 
             });  
                   
                   
         </script>
-        <a href="#" id="btnClearMarkers">clearMarkers()</a>
     </body>
 </html>
